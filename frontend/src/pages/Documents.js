@@ -85,7 +85,7 @@ const Documents = ({ user, onLogout }) => {
     if (!window.confirm('Are you sure you want to delete this document?')) return;
 
     try {
-      await axios.delete(`/api/documents/${documentId}`);
+      await axios.delete(`/documents/${documentId}`);
       setDocuments(documents.filter(doc => doc.id !== documentId));
       toast.success('Document deleted successfully');
     } catch (error) {
