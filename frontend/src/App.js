@@ -122,27 +122,35 @@ function App() {
         <div className="App min-h-screen bg-background text-foreground flex">
           {user && <Sidebar user={user} onLogout={handleLogout} />}
           
-          <main className="flex-1 min-h-screen">
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  user ? <Navigate to="/home" /> : <Landing onLogin={handleLogin} />
-                }
-              />
-              <Route
-                path="/home"
-                element={
-                  user ? <Home /> : <Navigate to="/" />
-                }
-              />
-              <Route
-                path="/session/:sessionId"
-                element={
-                  user ? <SessionView /> : <Navigate to="/" />
-                }
-              />
-            </Routes>
+          <main className="flex-1 min-h-screen flex flex-col">
+            {user && (
+              <div className="h-16 border-b border-border/50 bg-card/30 flex items-center justify-end px-6">
+                <UserMenu user={user} onLogout={handleLogout} onUserUpdate={setUser} />
+              </div>
+            )}
+            
+            <div className="flex-1">
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    user ? <Navigate to="/home" /> : <Landing onLogin={handleLogin} />
+                  }
+                />
+                <Route
+                  path="/home"
+                  element={
+                    user ? <Home /> : <Navigate to="/" />
+                  }
+                />
+                <Route
+                  path="/session/:sessionId"
+                  element={
+                    user ? <SessionView /> : <Navigate to="/" />
+                  }
+                />
+              </Routes>
+            </div>
           </main>
 
           <Toaster position="top-right" />
