@@ -75,7 +75,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
                   variant="outline"
                   size="sm"
                   className="mt-3"
-                  onClick={() => toast.info('Upload feature coming soon!')}
+                  onClick={() => setShowUpload(true)}
                 >
                   Upload Document
                 </Button>
