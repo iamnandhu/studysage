@@ -44,7 +44,7 @@ const QA = ({ user, onLogout }) => {
     try {
       const response = await axios.post('/ai/qa', {
         question,
-        document_id: selectedDocument || null
+        document_id: selectedDocument && selectedDocument !== 'none' ? selectedDocument : null
       });
 
       const aiMessage = {
