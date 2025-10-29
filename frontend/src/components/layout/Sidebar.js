@@ -150,8 +150,10 @@ const Sidebar = ({ user, onLogout }) => {
                     onClick={() => handleCreateSession('exam_prep')}
                     data-testid="type-exam-prep"
                   >
-                    <Target className="w-8 h-8 text-orange-500" />
-                    <div>
+                    <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center">
+                      <Target className="w-6 h-6 text-orange-500" />
+                    </div>
+                    <div className="text-center">
                       <div className="font-semibold">Exam Prep</div>
                       <div className="text-xs text-muted-foreground">Study plans & materials</div>
                     </div>
@@ -163,8 +165,10 @@ const Sidebar = ({ user, onLogout }) => {
                     onClick={() => handleCreateSession('qa')}
                     data-testid="type-qa"
                   >
-                    <Brain className="w-8 h-8 text-green-500" />
-                    <div>
+                    <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center">
+                      <Brain className="w-6 h-6 text-green-500" />
+                    </div>
+                    <div className="text-center">
                       <div className="font-semibold">Q&A Assistant</div>
                       <div className="text-xs text-muted-foreground">Document-based Q&A</div>
                     </div>
@@ -176,8 +180,10 @@ const Sidebar = ({ user, onLogout }) => {
                     onClick={() => handleCreateSession('homework')}
                     data-testid="type-homework"
                   >
-                    <FileText className="w-8 h-8 text-blue-500" />
-                    <div>
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                      <FileText className="w-6 h-6 text-blue-500" />
+                    </div>
+                    <div className="text-center">
                       <div className="font-semibold">Homework Solver</div>
                       <div className="text-xs text-muted-foreground">Detailed summaries</div>
                     </div>
