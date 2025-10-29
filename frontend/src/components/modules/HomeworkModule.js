@@ -70,7 +70,12 @@ const HomeworkModule = ({ session, onUpdate }) => {
         </div>
 
         <ScrollArea className="flex-1 p-4">
-          <DocumentList documents={documents} onDocumentDeleted={fetchData} />
+          <DocumentList
+            documents={documents}
+            onDocumentDeleted={fetchData}
+            selectedDoc={selectedDoc}
+            onDocumentSelect={setSelectedDoc}
+          />
         </ScrollArea>
 
         <div className="p-4 border-t border-border/50">
