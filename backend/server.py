@@ -268,13 +268,13 @@ async def root():
     return {"message": "StudySage API - AI-Powered Study Assistant"}
 
 # Session Management
-@api_router.post("/sessions", response_model=Session)
+@api_router.post("/sessions", response_model=StudySession)
 async def create_session(
     request: Request,
     current_user: User = Depends(get_current_user)
 ):
     data = await request.json()
-    session = Session(
+    session = StudySession(
         user_id=current_user.id,
         type=data.get('type'),
         name=data.get('name'),
@@ -288,7 +288,7 @@ async def create_session(
     await db.sessions_data.insert_one(session_dict)
     return session
 
-@api_router.get("/sessions", response_model=List[Session])
+@api_router.get("/sessions", response_model=List[StudySession])
 async def get_sessions(
     type: Optional[str] = None,
     current_user: User = Depends(get_current_user)
@@ -307,7 +307,7 @@ async def get_sessions(
     
     return sessions
 
-@api_router.get("/sessions/{session_id}", response_model=Session)
+@api_router.get("/sessions/{session_id}", response_model=StudySession)
 async def get_session(
     session_id: str,
     current_user: User = Depends(get_current_user)
@@ -321,7 +321,7 @@ async def get_session(
     if isinstance(session['updated_at'], str):
         session['updated_at'] = datetime.fromisoformat(session['updated_at'])
     
-    return Session(**session)
+    return StudySession(**session)
 
 @api_router.patch("/sessions/{session_id}")
 async def update_session(
