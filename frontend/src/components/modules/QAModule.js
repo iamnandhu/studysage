@@ -108,7 +108,9 @@ const QAModule = ({ session, onUpdate }) => {
                 <Card key={idx} className="card-hover cursor-pointer" onClick={() => setSelectedSources(qa.sources)}>
                   <CardContent className="p-3">
                     <p className="text-xs font-medium mb-2 line-clamp-2">{qa.question}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-2">{qa.answer}</p>
+                    <div className="text-xs text-muted-foreground line-clamp-2 prose prose-xs max-w-none dark:prose-invert">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{qa.answer}</ReactMarkdown>
+                    </div>
                     {qa.sources.length > 0 && (
                       <div className="mt-2 flex items-center gap-1 text-xs text-primary">
                         <ExternalLink className="w-3 h-3" />
