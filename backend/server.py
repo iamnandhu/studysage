@@ -24,6 +24,11 @@ from PIL import Image
 import io
 import base64
 
+
+# Import services
+from services.rag_service import RAGService
+from services.payment_service import PaymentService
+
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
