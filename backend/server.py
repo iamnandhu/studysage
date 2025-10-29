@@ -1039,7 +1039,7 @@ async def solve_homework(
             "session_id": session_id,
             "role": "assistant",
             "content": solution,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
             "sources": []
         }
         await db.chat_messages.insert_one(solution_message)
