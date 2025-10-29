@@ -102,6 +102,7 @@ class Document(BaseModel):
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
+    session_id: Optional[str] = None  # None means global, otherwise session-specific
     filename: str
     file_type: str
     file_path: str
@@ -109,6 +110,28 @@ class Document(BaseModel):
     content_preview: Optional[str] = None
     uploaded_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     is_exam_prep: bool = False
+    is_global: bool = True  # If True, accessible across sessions
+
+class Session(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    type: str  # exam_prep, qa, homework
+    name: str
+    config: dict = {}  # Stores module-specific config (exam name, date, etc)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    
+class ChatMessage(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    session_id: str
+    role: str  # user, assistant
+    content: str
+    sources: List[dict] = []  # For citations
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class StudyMaterial(BaseModel):
     model_config = ConfigDict(extra="ignore")
