@@ -222,7 +222,9 @@ const QAModule = ({ session, onUpdate }) => {
                       <FileText className="w-4 h-4 text-primary" />
                       <div>
                         <p className="text-sm font-medium">{source.filename}</p>
-                        <p className="text-xs text-muted-foreground">Referenced in answer</p>
+                        <p className="text-xs text-muted-foreground">
+                          Referenced in answer {source.page ? `• Page ${source.page}` : ''}
+                        </p>
                       </div>
                     </div>
                   </CardContent>
