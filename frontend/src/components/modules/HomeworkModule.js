@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import DocumentUploadDialog from '@/components/DocumentUploadDialog';
+import DocumentList from '@/components/DocumentList';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { FileText, Sparkles, Upload } from 'lucide-react';
