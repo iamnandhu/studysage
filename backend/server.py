@@ -59,6 +59,12 @@ razorpay_client = razorpay.Client(
 # Emergent LLM Key
 EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY', 'sk-emergent-736B924DfA44eB0D93')
 
+
+# Initialize services
+rag_service = RAGService(db)
+payment_service = PaymentService(db)
+
+
 # File upload directory
 UPLOAD_DIR = Path("/app/uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
