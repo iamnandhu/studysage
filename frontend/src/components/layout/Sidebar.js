@@ -70,7 +70,7 @@ const Sidebar = ({ user, onLogout }) => {
     if (!window.confirm('Delete this session? All messages will be lost.')) return;
 
     try {
-      await axios.delete(`/sessions/${sessionId}`);
+      await axios.delete(`/api/sessions/${sessionId}`);
       setSessions(sessions.filter(s => s.id !== sessionId));
       toast.success('Session deleted');
       
