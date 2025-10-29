@@ -8,6 +8,8 @@ import DocumentUploadDialog from '@/components/DocumentUploadDialog';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Upload, Send, FileText, Sparkles, GitBranch, Headphones, Calendar, Target } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ExamPrepModule = ({ session, onUpdate }) => {
   const [messages, setMessages] = useState([]);
