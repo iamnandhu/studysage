@@ -122,7 +122,7 @@ const ExamPrepModule = ({ session, onUpdate }) => {
                       {summary ? (
                         <div className="prose prose-xs max-w-none dark:prose-invert line-clamp-3">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                            {summary.content.summary?.substring(0, 150)}...
+                            {String(summary.content.summary || '').substring(0, 150)}...
                           </ReactMarkdown>
                         </div>
                       ) : (
