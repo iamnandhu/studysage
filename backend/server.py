@@ -978,6 +978,87 @@ async def create_mindmap(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating mindmap: {str(e)}")
 
+
+@api_router.post("/homework/solve")
+async def solve_homework(
+    file: UploadFile = File(...),
+    session_id: str = Form(...),
+    current_user: User = Depends(get_current_user)
+):
+    await check_credits(current_user, 2)
+    
+    # Validate file type
+    if not file.content_type.startswith('image/'):
+        raise HTTPException(status_code=400, detail="Only image files are allowed")
+    
+    # Save uploaded image
+    upload_dir = Path("uploads/homework")
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    
+    file_id = str(uuid.uuid4())
+    file_extension = Path(file.filename).suffix
+    file_path = upload_dir / f"{file_id}{file_extension}"
+    
+    with file_path.open("wb") as buffer:
+        content = await file.read()
+        buffer.write(content)
+    
+    # Save homework image as a message
+    image_message = {
+        "session_id": session_id,
+        "role": "user",
+        "content": str(file_path),  # Store file path
+        "question": file.filename,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "sources": []
+    }
+    await db.chat_messages.insert_one(image_message)
+    
+    # Use AI to solve homework from image
+    chat = LlmChat(
+        api_key=EMERGENT_LLM_KEY,
+        session_id=f"homework_{file_id}",
+        system_message=f"You are an expert homework tutor. Analyze the homework question in the image and provide a clear, step-by-step solution. The student is {current_user.age} years old, so tailor the explanation appropriately."
+    ).with_model("gemini", "gemini-2.0-flash")
+    
+    file_content = FileContentWithMimeType(
+        file_path=str(file_path),
+        mime_type=file.content_type
+    )
+    
+    user_message = UserMessage(
+        text="Please analyze this homework question and provide a detailed solution with step-by-step explanations. Include the final answer clearly.",
+        file_contents=[file_content]
+    )
+    
+    try:
+        solution = await chat.send_message(user_message)
+        
+        # Save solution as assistant message
+        solution_message = {
+            "session_id": session_id,
+            "role": "assistant",
+            "content": solution,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "sources": []
+        }
+        await db.chat_messages.insert_one(solution_message)
+        
+        await deduct_credits(current_user.id, 2)
+        
+        return {
+            "success": True,
+            "solution": solution,
+            "image_path": str(file_path)
+        }
+    
+    except Exception as e:
+        # Delete uploaded file if processing fails
+        if file_path.exists():
+            file_path.unlink()
+        raise HTTPException(status_code=500, detail=f"Error solving homework: {str(e)}")
+
+
 @api_router.get("/study-materials")
 async def get_study_materials(
     document_id: Optional[str] = None,
