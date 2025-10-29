@@ -609,6 +609,29 @@ async def google_callback(request: Request, response: Response):
 async def get_me(current_user: User = Depends(get_current_user)):
     return current_user
 
+@api_router.patch("/auth/me")
+async def update_me(
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    data = await request.json()
+    update_data = {}
+    
+    if 'age' in data:
+        update_data['age'] = data['age']
+    if 'theme' in data:
+        update_data['theme'] = data['theme']
+    if 'name' in data:
+        update_data['name'] = data['name']
+    
+    if update_data:
+        await db.users.update_one(
+            {"id": current_user.id},
+            {"$set": update_data}
+        )
+    
+    return {"message": "Profile updated successfully"}
+
 @api_router.post("/auth/logout")
 async def logout(session_token: Optional[str] = Cookie(None), response: Response = None):
     if session_token:
