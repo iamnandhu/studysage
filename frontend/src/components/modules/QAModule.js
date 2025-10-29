@@ -7,6 +7,8 @@ import DocumentUploadDialog from '@/components/DocumentUploadDialog';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Send, Brain, FileText, ExternalLink, Upload } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const QAModule = ({ session, onUpdate }) => {
   const [messages, setMessages] = useState([]);
