@@ -117,6 +117,18 @@ backend:
         agent: "main"
         comment: "Backend API endpoints already exist and working"
 
+  - task: "Homework solving endpoint"
+    implemented: true
+    working: "NA"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created /api/homework/solve endpoint that accepts image uploads, uses Gemini vision to analyze homework questions and generate step-by-step solutions. Saves both image and solution as chat messages. Uses 2 credits per solve."
+
 frontend:
   - task: "Markdown rendering in modules"
     implemented: true
