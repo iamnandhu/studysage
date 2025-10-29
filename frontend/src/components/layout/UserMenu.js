@@ -83,6 +83,145 @@ const UserMenu = ({ user, onLogout, onUserUpdate }) => {
     }
   };
 
+  const handleBuyCredits = async (credits, amount) => {
+    if (!paymentConfig) {
+      toast.error('Payment system not available');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Create order
+      const orderResponse = await axios.post('/payments/create-credit-order', {
+        credits,
+        amount
+      });
+
+      // Load Razorpay script
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        const options = {
+          key: paymentConfig.key_id,
+          amount: orderResponse.data.amount,
+          currency: orderResponse.data.currency,
+          name: 'StudySage',
+          description: `Purchase ${credits} Credits`,
+          order_id: orderResponse.data.id,
+          handler: async (response) => {
+            try {
+              // Verify payment
+              const verifyResponse = await axios.post('/payments/verify-credit-payment', {
+                order_id: response.razorpay_order_id,
+                payment_id: response.razorpay_payment_id,
+                signature: response.razorpay_signature
+              });
+
+              toast.success(`${verifyResponse.data.credits_added} credits added!`);
+              
+              // Refresh user data
+              if (onUserUpdate) {
+                const userResponse = await axios.get('/auth/me');
+                onUserUpdate(userResponse.data);
+              }
+              
+              setShowCredits(false);
+            } catch (error) {
+              toast.error('Payment verification failed');
+            }
+          },
+          prefill: {
+            name: user?.name,
+            email: user?.email
+          },
+          theme: {
+            color: '#3b82f6'
+          }
+        };
+
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
+      };
+    } catch (error) {
+      console.error('Error creating order:', error);
+      toast.error('Failed to initiate payment');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubscribe = async (plan) => {
+    if (!paymentConfig) {
+      toast.error('Payment system not available');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Create subscription order
+      const orderResponse = await axios.post('/payments/create-subscription-order', {
+        plan
+      });
+
+      // Load Razorpay script
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        const options = {
+          key: paymentConfig.key_id,
+          amount: orderResponse.data.amount,
+          currency: orderResponse.data.currency,
+          name: 'StudySage',
+          description: `${plan === 'monthly' ? 'Monthly' : 'Yearly'} Subscription`,
+          order_id: orderResponse.data.id,
+          handler: async (response) => {
+            try {
+              // Verify and activate subscription
+              const verifyResponse = await axios.post('/payments/verify-subscription-payment', {
+                order_id: response.razorpay_order_id,
+                payment_id: response.razorpay_payment_id,
+                signature: response.razorpay_signature
+              });
+
+              toast.success('Subscription activated!');
+              
+              // Refresh user data
+              if (onUserUpdate) {
+                const userResponse = await axios.get('/auth/me');
+                onUserUpdate(userResponse.data);
+              }
+              
+              setShowCredits(false);
+            } catch (error) {
+              toast.error('Subscription activation failed');
+            }
+          },
+          prefill: {
+            name: user?.name,
+            email: user?.email
+          },
+          theme: {
+            color: '#3b82f6'
+          }
+        };
+
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
+      };
+    } catch (error) {
+      console.error('Error creating subscription order:', error);
+      toast.error('Failed to initiate subscription');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <DropdownMenu>
