@@ -82,7 +82,7 @@ const ExamPrepModule = ({ session, onUpdate }) => {
   };
 
   return (
-    <div className="h-screen flex" data-testid="exam-prep-module">
+    <div className="h-[calc(100vh-4rem)] flex" data-testid="exam-prep-module">
       {/* Left Column - Summaries */}
       <div className="w-80 border-r border-border/50 flex flex-col bg-card/30">
         <div className="p-4 border-b border-border/50">
