@@ -233,11 +233,29 @@ const QAModule = ({ session, onUpdate }) => {
         </ScrollArea>
 
         <div className="p-4 border-t border-border/50">
-          <div className="text-xs text-muted-foreground">
-            <p>💡 Tip: Upload documents to get contextual answers with citations</p>
+          <div className="space-y-2">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setShowUpload(true)}
+            >
+              <Upload className="w-4 h-4 mr-2" />
+              Upload Document
+            </Button>
+            <div className="text-xs text-muted-foreground text-center">
+              <p>💡 Tip: Upload documents to get contextual answers with citations</p>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Upload Dialog */}
+      <DocumentUploadDialog
+        open={showUpload}
+        onClose={() => setShowUpload(false)}
+        sessionId={session.id}
+        onUploadComplete={fetchData}
+      />
     </div>
   );
 };
