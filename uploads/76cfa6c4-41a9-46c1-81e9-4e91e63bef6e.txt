@@ -1,0 +1,14 @@
+This is a sample document for testing.
+
+# Study Notes
+
+## Introduction
+This document contains important study material for testing the StudySage application.
+
+## Key Concepts
+1. Document upload functionality
+2. Text extraction
+3. AI-powered summarization
+
+## Conclusion
+This is a test document to verify the upload system works correctly.
