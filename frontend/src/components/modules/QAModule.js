@@ -157,7 +157,7 @@ const QAModule = ({ session, onUpdate }) => {
                           {msg.sources.map((source, sidx) => (
                             <div key={sidx} className="text-xs opacity-70 flex items-center gap-1">
                               <FileText className="w-3 h-3" />
-                              <span>{source.filename}</span>
+                              <span>{source.filename} {source.page ? `(Page ${source.page})` : ''}</span>
                             </div>
                           ))}
                         </div>
