@@ -166,10 +166,14 @@ async def get_current_user(authorization: Optional[str] = Header(None), session_
     if session_token:
         # Check session from cookie first
         session = await db.sessions.find_one({"session_token": session_token})
-        if session and session['expires_at'] > datetime.now(timezone.utc):
-            user = await db.users.find_one({"id": session['user_id']}, {"_id": 0})
-            if user:
-                return User(**user)
+        if session:
+            expires_at = session['expires_at']
+            if isinstance(expires_at, str):
+                expires_at = datetime.fromisoformat(expires_at)
+            if expires_at > datetime.now(timezone.utc):
+                user = await db.users.find_one({"id": session['user_id']}, {"_id": 0})
+                if user:
+                    return User(**user)
     
     if authorization and authorization.startswith("Bearer "):
         token = authorization.split(" ")[1]
