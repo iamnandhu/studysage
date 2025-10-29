@@ -298,7 +298,7 @@ const Sidebar = ({ user, onLogout }) => {
 
           <Button
             variant="ghost"
-            className="w-full justify-start gap-2 text-red-500 hover:text-red-600 hover:bg-red-500/10"
+            className={`w-full gap-2 text-red-500 hover:text-red-600 hover:bg-red-500/10 ${isCollapsed ? 'justify-center px-0' : 'justify-start'}`}
             onClick={onLogout}
             data-testid="logout-btn"
           >
