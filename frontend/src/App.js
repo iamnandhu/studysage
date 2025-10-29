@@ -89,6 +89,8 @@ function App() {
     localStorage.removeItem('access_token');
     delete axios.defaults.headers.common['Authorization'];
     setUser(null);
+    // Clear any query params and navigate to root
+    window.location.href = '/';
   };
 
   const handleAgeComplete = async () => {
