@@ -46,14 +46,14 @@ const DocumentList = ({ documents, onDocumentDeleted, selectedDoc, onDocumentSel
           key={doc.id}
           className={`card-hover ${
             onDocumentSelect ? 'cursor-pointer' : ''
-          } ${selectedDoc?.id === doc.id ? 'border-primary bg-primary/5' : ''}`}
+          } ${selectedDoc?.id === doc.id ? 'border-primary bg-primary/5' : ''} overflow-hidden`}
           onClick={() => onDocumentSelect && onDocumentSelect(doc)}
         >
           <CardHeader className="p-3 pb-2">
-            <CardTitle className="text-sm flex items-start justify-between">
-              <div className="flex items-center gap-2 flex-1 min-w-0">
+            <CardTitle className="text-sm flex items-start justify-between gap-2">
+              <div className="flex items-center gap-2 flex-1 min-w-0 overflow-hidden">
                 <FileIcon className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="truncate">{doc.filename}</span>
+                <span className="truncate block">{doc.filename}</span>
               </div>
               <Button
                 variant="ghost"
