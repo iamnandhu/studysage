@@ -7,10 +7,10 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 p-8" data-testid="home-page">
-      <div className="max-w-4xl mx-auto">
+    <div className="flex-1 flex items-center justify-center p-8" data-testid="home-page">
+      <div className="max-w-4xl mx-auto w-full">
         <div className="mb-12 text-center animate-slide-up">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
             Welcome to StudySage
           </h1>
           <p className="text-xl text-muted-foreground">
