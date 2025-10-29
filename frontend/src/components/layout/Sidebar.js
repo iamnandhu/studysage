@@ -119,6 +119,7 @@ const Sidebar = ({ user, onLogout }) => {
             size="icon"
             onClick={() => setIsCollapsed(!isCollapsed)}
             data-testid="collapse-btn"
+            className="ml-auto"
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </Button>
