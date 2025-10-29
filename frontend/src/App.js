@@ -7,6 +7,7 @@ import Landing from './pages/Landing';
 import Home from './pages/Home';
 import SessionView from './pages/SessionView';
 import Sidebar from './components/layout/Sidebar';
+import UserMenu from './components/layout/UserMenu';
 import AgeOnboarding from './components/AgeOnboarding';
 import '@/App.css';
 
