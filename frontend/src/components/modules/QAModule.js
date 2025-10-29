@@ -111,7 +111,9 @@ const QAModule = ({ session, onUpdate }) => {
                   <CardContent className="p-3">
                     <p className="text-xs font-medium mb-2 line-clamp-2">{qa.question}</p>
                     <div className="text-xs text-muted-foreground line-clamp-2 prose prose-xs max-w-none dark:prose-invert">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{qa.answer}</ReactMarkdown>
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {String(qa.answer || '')}
+                      </ReactMarkdown>
                     </div>
                     {qa.sources.length > 0 && (
                       <div className="mt-2 flex items-center gap-1 text-xs text-primary">
