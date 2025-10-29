@@ -185,10 +185,7 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus:
-    - "Markdown rendering in modules"
-    - "Sidebar icon alignment fix"
-    - "Document viewer component"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
