@@ -69,8 +69,11 @@ const Sidebar = ({ user, onLogout }) => {
 
   const handleDeleteSession = async (sessionId, e) => {
     e.stopPropagation();
-    if (!window.confirm('Delete this session? All messages will be lost.')) return;
+    setDeleteConfirm({ open: true, sessionId });
+  };
 
+  const confirmDelete = async () => {
+    const { sessionId } = deleteConfirm;
     try {
       await axios.delete(`/sessions/${sessionId}`);
       setSessions(sessions.filter(s => s.id !== sessionId));
@@ -82,6 +85,8 @@ const Sidebar = ({ user, onLogout }) => {
     } catch (error) {
       console.error('Error deleting session:', error);
       toast.error('Failed to delete session');
+    } finally {
+      setDeleteConfirm({ open: false, sessionId: null });
     }
   };
 
