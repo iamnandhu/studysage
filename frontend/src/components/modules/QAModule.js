@@ -15,6 +15,7 @@ const QAModule = ({ session, onUpdate }) => {
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedSources, setSelectedSources] = useState([]);
+  const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
     fetchData();
