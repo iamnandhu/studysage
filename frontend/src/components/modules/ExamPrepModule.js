@@ -232,65 +232,78 @@ const ExamPrepModule = ({ session, onUpdate }) => {
         </div>
       </div>
 
-      {/* Right Column - Tools */}
+      {/* Right Column - Tools & Documents */}
       <div className="w-80 border-l border-border/50 flex flex-col bg-card/30">
-        <div className="p-4 border-b border-border/50">
-          <h2 className="font-semibold">Study Tools</h2>
-        </div>
-
-        <ScrollArea className="flex-1 p-4">
-          <div className="space-y-3">
-            <Button
-              variant="outline"
-              className="w-full justify-start"
-              onClick={() => toast.info('Mindmap feature coming soon!')}
-            >
-              <GitBranch className="w-4 h-4 mr-2" />
-              Generate Mindmap
-            </Button>
-
-            <Button
-              variant="outline"
-              className="w-full justify-start"
-              onClick={() => toast.info('Flashcards feature coming soon!')}
-            >
-              <Sparkles className="w-4 h-4 mr-2" />
-              Create Flashcards
-            </Button>
-
-            <Button
-              variant="outline"
-              className="w-full justify-start"
-              onClick={() => toast.info('Audio summary feature coming soon!')}
-            >
-              <Headphones className="w-4 h-4 mr-2" />
-              Audio Summary
-            </Button>
-
-            <Button
-              variant="outline"
-              className="w-full justify-start"
-              onClick={() => toast.info('Podcast feature coming soon!')}
-            >
-              <Headphones className="w-4 h-4 mr-2" />
-              Generate Podcast
-            </Button>
-
-            {session.config?.exam_date && (
-              <Card className="mt-4">
-                <CardHeader className="p-3">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    Exam Date
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 pt-0">
-                  <p className="text-xs">{session.config.exam_date}</p>
-                </CardContent>
-              </Card>
-            )}
+        <Tabs defaultValue="tools" className="flex-1 flex flex-col">
+          <div className="p-4 border-b border-border/50">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="tools">Tools</TabsTrigger>
+              <TabsTrigger value="documents">Documents</TabsTrigger>
+            </TabsList>
           </div>
-        </ScrollArea>
+
+          <TabsContent value="tools" className="flex-1 m-0">
+            <ScrollArea className="h-full p-4">
+              <div className="space-y-3">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() => toast.info('Mindmap feature coming soon!')}
+                >
+                  <GitBranch className="w-4 h-4 mr-2" />
+                  Generate Mindmap
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() => toast.info('Flashcards feature coming soon!')}
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Create Flashcards
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() => toast.info('Audio summary feature coming soon!')}
+                >
+                  <Headphones className="w-4 h-4 mr-2" />
+                  Audio Summary
+                </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() => toast.info('Podcast feature coming soon!')}
+                >
+                  <Headphones className="w-4 h-4 mr-2" />
+                  Generate Podcast
+                </Button>
+
+                {session.config?.exam_date && (
+                  <Card className="mt-4">
+                    <CardHeader className="p-3">
+                      <CardTitle className="text-sm flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        Exam Date
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      <p className="text-xs">{session.config.exam_date}</p>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </ScrollArea>
+          </TabsContent>
+
+          <TabsContent value="documents" className="flex-1 m-0">
+            <ScrollArea className="h-full p-4">
+              <DocumentList documents={documents} onDocumentDeleted={fetchData} />
+            </ScrollArea>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
