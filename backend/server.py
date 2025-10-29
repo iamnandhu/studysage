@@ -264,6 +264,152 @@ def extract_text_from_file(file_path: str, file_type: str) -> str:
 async def root():
     return {"message": "StudySage API - AI-Powered Study Assistant"}
 
+# Session Management
+@api_router.post("/sessions", response_model=Session)
+async def create_session(
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    data = await request.json()
+    session = Session(
+        user_id=current_user.id,
+        type=data.get('type'),
+        name=data.get('name'),
+        config=data.get('config', {})
+    )
+    
+    session_dict = session.model_dump()
+    session_dict['created_at'] = session_dict['created_at'].isoformat()
+    session_dict['updated_at'] = session_dict['updated_at'].isoformat()
+    
+    await db.sessions_data.insert_one(session_dict)
+    return session
+
+@api_router.get("/sessions", response_model=List[Session])
+async def get_sessions(
+    type: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
+):
+    query = {"user_id": current_user.id}
+    if type:
+        query["type"] = type
+    
+    sessions = await db.sessions_data.find(query, {"_id": 0}).sort("updated_at", -1).to_list(100)
+    
+    for session in sessions:
+        if isinstance(session['created_at'], str):
+            session['created_at'] = datetime.fromisoformat(session['created_at'])
+        if isinstance(session['updated_at'], str):
+            session['updated_at'] = datetime.fromisoformat(session['updated_at'])
+    
+    return sessions
+
+@api_router.get("/sessions/{session_id}", response_model=Session)
+async def get_session(
+    session_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    session = await db.sessions_data.find_one({"id": session_id, "user_id": current_user.id}, {"_id": 0})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if isinstance(session['created_at'], str):
+        session['created_at'] = datetime.fromisoformat(session['created_at'])
+    if isinstance(session['updated_at'], str):
+        session['updated_at'] = datetime.fromisoformat(session['updated_at'])
+    
+    return Session(**session)
+
+@api_router.patch("/sessions/{session_id}")
+async def update_session(
+    session_id: str,
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    data = await request.json()
+    update_data = {"updated_at": datetime.now(timezone.utc).isoformat()}
+    
+    if 'name' in data:
+        update_data['name'] = data['name']
+    if 'config' in data:
+        update_data['config'] = data['config']
+    
+    result = await db.sessions_data.update_one(
+        {"id": session_id, "user_id": current_user.id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    return {"message": "Session updated successfully"}
+
+@api_router.delete("/sessions/{session_id}")
+async def delete_session(
+    session_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    # Delete session
+    result = await db.sessions_data.delete_one({"id": session_id, "user_id": current_user.id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    # Delete associated chat messages
+    await db.chat_messages.delete_many({"session_id": session_id})
+    
+    return {"message": "Session deleted successfully"}
+
+# Chat Messages
+@api_router.post("/sessions/{session_id}/messages", response_model=ChatMessage)
+async def create_message(
+    session_id: str,
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    # Verify session belongs to user
+    session = await db.sessions_data.find_one({"id": session_id, "user_id": current_user.id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    data = await request.json()
+    message = ChatMessage(
+        session_id=session_id,
+        role=data.get('role'),
+        content=data.get('content'),
+        sources=data.get('sources', [])
+    )
+    
+    message_dict = message.model_dump()
+    message_dict['created_at'] = message_dict['created_at'].isoformat()
+    
+    await db.chat_messages.insert_one(message_dict)
+    
+    # Update session timestamp
+    await db.sessions_data.update_one(
+        {"id": session_id},
+        {"$set": {"updated_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    return message
+
+@api_router.get("/sessions/{session_id}/messages", response_model=List[ChatMessage])
+async def get_messages(
+    session_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    # Verify session belongs to user
+    session = await db.sessions_data.find_one({"id": session_id, "user_id": current_user.id})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    messages = await db.chat_messages.find({"session_id": session_id}, {"_id": 0}).sort("created_at", 1).to_list(1000)
+    
+    for msg in messages:
+        if isinstance(msg['created_at'], str):
+            msg['created_at'] = datetime.fromisoformat(msg['created_at'])
+    
+    return messages
+
 # Authentication Routes
 @api_router.post("/auth/signup")
 async def signup(user_data: UserSignup):
