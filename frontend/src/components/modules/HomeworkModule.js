@@ -93,7 +93,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
 
       // Upload image and get solution
       toast.loading('Analyzing homework...');
-      const response = await axios.post('/api/homework/solve', formData, {
+      const response = await axios.post('/homework/solve', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
