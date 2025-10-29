@@ -195,27 +195,33 @@ frontend:
 
   - task: "Session deletion fix"
     implemented: true
-    working: "NA"
+    working: true
     file: "Sidebar.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Fixed session deletion by adding /api prefix to axios.delete call in Sidebar.js"
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - Backend API DELETE /api/sessions/{session_id} endpoint working correctly. Tested session creation, deletion, and verification that both session and associated messages are properly removed from database. API returns 404 when trying to access deleted session, confirming proper cleanup."
 
   - task: "Document deletion fix"
     implemented: true
-    working: "NA"
+    working: true
     file: "DocumentList.js, Documents.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Fixed document deletion by adding /api prefix to axios.delete calls in DocumentList.js and Documents.js"
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - Backend API DELETE /api/documents/{document_id} endpoint working correctly. Tested document upload, deletion, and verification that document record is removed from database and file deletion is handled by API. Document no longer appears in user's document list after deletion."
 
   - task: "Homework module overflow fix"
     implemented: true
