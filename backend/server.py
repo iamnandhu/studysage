@@ -112,7 +112,7 @@ class Document(BaseModel):
     is_exam_prep: bool = False
     is_global: bool = True  # If True, accessible across sessions
 
-class Session(BaseModel):
+class StudySession(BaseModel):
     model_config = ConfigDict(extra="ignore")
     
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
