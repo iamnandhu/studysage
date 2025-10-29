@@ -375,7 +375,8 @@ const UserMenu = ({ user, onLogout, onUserUpdate }) => {
               <Button
                 variant="outline"
                 className="w-full justify-between"
-                onClick={() => toast.info('Payment integration coming soon!')}
+                onClick={() => handleBuyCredits(10, 50)}
+                disabled={loading}
               >
                 <span>10 Credits</span>
                 <span className="font-bold">₹50</span>
@@ -383,7 +384,8 @@ const UserMenu = ({ user, onLogout, onUserUpdate }) => {
               <Button
                 variant="outline"
                 className="w-full justify-between"
-                onClick={() => toast.info('Payment integration coming soon!')}
+                onClick={() => handleBuyCredits(50, 250)}
+                disabled={loading}
               >
                 <span>50 Credits</span>
                 <span className="font-bold">₹250</span>
@@ -391,7 +393,8 @@ const UserMenu = ({ user, onLogout, onUserUpdate }) => {
               <Button
                 variant="outline"
                 className="w-full justify-between"
-                onClick={() => toast.info('Payment integration coming soon!')}
+                onClick={() => handleBuyCredits(100, 500)}
+                disabled={loading}
               >
                 <span>100 Credits</span>
                 <span className="font-bold">₹500</span>
@@ -402,7 +405,8 @@ const UserMenu = ({ user, onLogout, onUserUpdate }) => {
               <h4 className="font-semibold mb-2">Monthly Subscription</h4>
               <Button
                 className="w-full justify-between"
-                onClick={() => toast.info('Subscription integration coming soon!')}
+                onClick={() => handleSubscribe('monthly')}
+                disabled={loading}
               >
                 <span>₹399/month</span>
                 <span>Unlimited Usage</span>
