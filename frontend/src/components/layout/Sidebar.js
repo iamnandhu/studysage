@@ -278,7 +278,7 @@ const Sidebar = ({ user, onLogout }) => {
         <div className="p-4 border-t border-border space-y-2">
           <Button
             variant="ghost"
-            className="w-full justify-start gap-2"
+            className={`w-full gap-2 ${isCollapsed ? 'justify-center px-0' : 'justify-start'}`}
             onClick={toggleTheme}
             data-testid="theme-toggle"
           >
