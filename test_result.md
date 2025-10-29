@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix immediate UI issues: 1) Markdown rendering not working 2) Sidebar icons misaligned when collapsed 3) No document viewer section"
+user_problem_statement: "Bug fixes: 1) Session deletion not working 2) Document deletion not working 3) Homework module left panel overflow 4) Homework module should accept image uploads for homework solving"
 
 backend:
   - task: "Document API endpoints"
