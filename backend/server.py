@@ -1155,6 +1155,119 @@ async def solve_homework(
         raise HTTPException(status_code=500, detail=f"Error solving homework: {str(e)}")
 
 
+
+# Payment endpoints
+@api_router.get("/payments/config")
+async def get_payment_config(current_user: User = Depends(get_current_user)):
+    """Get Razorpay configuration for frontend"""
+    return {
+        "key_id": payment_service.key_id,
+        "currency": "INR"
+    }
+
+@api_router.post("/payments/create-credit-order")
+async def create_credit_order(
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    """Create order for credit purchase"""
+    data = await request.json()
+    credits = data.get('credits')
+    amount = data.get('amount')
+    
+    try:
+        order = await payment_service.create_credit_order(
+            user_id=current_user.id,
+            credits=credits,
+            amount=amount
+        )
+        return order
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/payments/verify-credit-payment")
+async def verify_credit_payment(
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    """Verify and process credit payment"""
+    data = await request.json()
+    order_id = data.get('order_id')
+    payment_id = data.get('payment_id')
+    signature = data.get('signature')
+    
+    try:
+        # Verify signature
+        is_valid = await payment_service.verify_payment(
+            order_id=order_id,
+            payment_id=payment_id,
+            signature=signature
+        )
+        
+        if not is_valid:
+            raise HTTPException(status_code=400, detail="Invalid payment signature")
+        
+        # Process payment
+        result = await payment_service.process_successful_payment(
+            order_id=order_id,
+            payment_id=payment_id
+        )
+        
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/payments/create-subscription-order")
+async def create_subscription_order(
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    """Create order for subscription"""
+    data = await request.json()
+    plan = data.get('plan')
+    
+    try:
+        order = await payment_service.create_subscription_order(
+            user_id=current_user.id,
+            plan=plan
+        )
+        return order
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.post("/payments/verify-subscription-payment")
+async def verify_subscription_payment(
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    """Verify and activate subscription"""
+    data = await request.json()
+    order_id = data.get('order_id')
+    payment_id = data.get('payment_id')
+    signature = data.get('signature')
+    
+    try:
+        # Verify signature
+        is_valid = await payment_service.verify_payment(
+            order_id=order_id,
+            payment_id=payment_id,
+            signature=signature
+        )
+        
+        if not is_valid:
+            raise HTTPException(status_code=400, detail="Invalid payment signature")
+        
+        # Activate subscription
+        result = await payment_service.activate_subscription(
+            order_id=order_id,
+            payment_id=payment_id
+        )
+        
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @api_router.get("/study-materials")
 async def get_study_materials(
     document_id: Optional[str] = None,
