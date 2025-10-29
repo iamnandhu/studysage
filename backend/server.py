@@ -245,8 +245,12 @@ def extract_text_from_file(file_path: str, file_type: str) -> str:
             with open(file_path, "rb") as file:
                 pdf_reader = PyPDF2.PdfReader(file)
                 text = ""
-                for page in pdf_reader.pages:
-                    text += page.extract_text()
+                # Store page info for citations
+                page_texts = []
+                for i, page in enumerate(pdf_reader.pages):
+                    page_text = page.extract_text()
+                    page_texts.append(f"[Page {i+1}] {page_text[:500]}")
+                    text += page_text
                 return text[:5000]  # Limit preview
         
         elif file_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
