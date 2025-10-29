@@ -188,6 +188,14 @@ const HomeworkModule = ({ session, onUpdate }) => {
           )}
         </ScrollArea>
       </div>
+
+      {/* Upload Dialog */}
+      <DocumentUploadDialog
+        open={showUpload}
+        onClose={() => setShowUpload(false)}
+        sessionId={session.id}
+        onUploadComplete={fetchData}
+      />
     </div>
   );
 };
