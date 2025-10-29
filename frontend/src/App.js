@@ -118,10 +118,10 @@ function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
-        <div className="App min-h-screen bg-background text-foreground">
+        <div className="App min-h-screen bg-background text-foreground flex">
           {user && <Sidebar user={user} onLogout={handleLogout} />}
           
-          <main className={user ? "flex-1" : ""}>
+          <main className="flex-1 min-h-screen">
             <Routes>
               <Route
                 path="/"
