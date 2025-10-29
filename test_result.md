@@ -119,15 +119,18 @@ backend:
 
   - task: "Homework solving endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created /api/homework/solve endpoint that accepts image uploads, uses Gemini vision to analyze homework questions and generate step-by-step solutions. Saves both image and solution as chat messages. Uses 2 credits per solve."
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - Fixed critical bug where homework messages used 'timestamp' instead of 'created_at' field causing 500 error when retrieving messages. Endpoint now works correctly: accepts image uploads, processes with Gemini vision, saves both question image and AI solution as chat messages, deducts 2 credits properly. Comprehensive testing shows full functionality working."
 
 frontend:
   - task: "Markdown rendering in modules"
