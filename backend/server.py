@@ -1009,7 +1009,7 @@ async def solve_homework(
         "role": "user",
         "content": str(file_path),  # Store file path
         "question": file.filename,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
         "sources": []
     }
     await db.chat_messages.insert_one(image_message)
