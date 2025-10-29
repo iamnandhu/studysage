@@ -66,7 +66,7 @@ const QAModule = ({ session, onUpdate }) => {
         document_id: docId
       });
 
-      const sources = docId ? [{ document_id: docId, filename: documents[0].filename }] : [];
+      const sources = docId ? [{ document_id: docId, filename: documents[0].filename, page: 1 }] : [];
       const aiMsg = { role: 'assistant', content: response.data.answer, sources };
       await axios.post(`/sessions/${session.id}/messages`, aiMsg);
       
