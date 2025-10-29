@@ -23,7 +23,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
 
   const fetchHomeworks = async () => {
     try {
-      const response = await axios.get(`/api/sessions/${session.id}/messages`);
+      const response = await axios.get(`/sessions/${session.id}/messages`);
       // Group messages into homework pairs (image + solution)
       const hwList = [];
       for (let i = 0; i < response.data.length; i += 2) {
@@ -33,7 +33,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
             imageUrl: response.data[i].content,
             question: response.data[i].question || 'Homework Question',
             solution: response.data[i + 1].content,
-            timestamp: response.data[i].timestamp || new Date().toISOString(),
+            timestamp: response.data[i].created_at || new Date().toISOString(),
             status: response.data[i + 1].content ? 'solved' : 'pending'
           });
         }
