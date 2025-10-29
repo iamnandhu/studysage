@@ -100,6 +100,16 @@ const DocumentList = ({ documents, onDocumentDeleted, selectedDoc, onDocumentSel
           </CardContent>
         </Card>
       ))}
+      
+      <ConfirmDialog
+        open={deleteConfirm.open}
+        onOpenChange={(open) => setDeleteConfirm({ open, docId: null })}
+        title="Delete Document"
+        description="Are you sure you want to delete this document? This action cannot be undone."
+        onConfirm={confirmDelete}
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </div>
   );
 };
