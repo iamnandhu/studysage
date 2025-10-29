@@ -646,6 +646,8 @@ async def logout(session_token: Optional[str] = Cookie(None), response: Response
 @api_router.post("/documents/upload")
 async def upload_document(
     file: UploadFile = File(...),
+    session_id: Optional[str] = Form(None),
+    is_global: bool = Form(True),
     is_exam_prep: bool = Form(False),
     current_user: User = Depends(get_current_user)
 ):
@@ -660,6 +662,12 @@ async def upload_document(
     
     if file.content_type not in allowed_types:
         raise HTTPException(status_code=400, detail="File type not supported")
+    
+    # If session_id provided, verify it belongs to user
+    if session_id:
+        session = await db.sessions_data.find_one({"id": session_id, "user_id": current_user.id})
+        if not session:
+            raise HTTPException(status_code=404, detail="Session not found")
     
     # Save file
     file_id = str(uuid.uuid4())
@@ -676,12 +684,14 @@ async def upload_document(
     # Create document record
     document = Document(
         user_id=current_user.id,
+        session_id=session_id,
         filename=file.filename,
         file_type=file.content_type,
         file_path=str(file_path),
         file_size=len(content),
         content_preview=content_preview,
-        is_exam_prep=is_exam_prep
+        is_exam_prep=is_exam_prep,
+        is_global=is_global
     )
     
     doc_dict = document.model_dump()
