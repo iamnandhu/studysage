@@ -10,7 +10,7 @@ const DocumentList = ({ documents, onDocumentDeleted, selectedDoc, onDocumentSel
     if (!window.confirm('Delete this document? This action cannot be undone.')) return;
 
     try {
-      await axios.delete(`/documents/${docId}`);
+      await axios.delete(`/api/documents/${docId}`);
       toast.success('Document deleted');
       if (onDocumentDeleted) onDocumentDeleted();
     } catch (error) {
