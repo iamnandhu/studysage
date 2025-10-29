@@ -717,6 +717,18 @@ async def upload_document(
     
     await db.documents.insert_one(doc_dict)
     
+    # Process document with RAG (asynchronously in background)
+    if file.content_type == "application/pdf":
+        try:
+            await rag_service.process_document(
+                document_id=document.id,
+                user_id=current_user.id,
+                file_path=str(file_path),
+                file_type=file.content_type
+            )
+        except Exception as e:
+            print(f"Error processing document for RAG: {e}")
+    
     return document
 
 @api_router.get("/documents", response_model=List[Document])
