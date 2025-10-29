@@ -6,6 +6,8 @@ import DocumentUploadDialog from '@/components/DocumentUploadDialog';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { FileText, Sparkles, Upload } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const HomeworkModule = ({ session, onUpdate }) => {
   const [documents, setDocuments] = useState([]);
