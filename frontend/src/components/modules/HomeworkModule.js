@@ -290,7 +290,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
                 <CardContent>
                   <div className="prose prose-sm max-w-none dark:prose-invert">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {selectedHomework.solution}
+                      {String(selectedHomework.solution || '')}
                     </ReactMarkdown>
                   </div>
                 </CardContent>
