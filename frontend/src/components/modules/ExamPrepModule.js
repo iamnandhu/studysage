@@ -192,7 +192,9 @@ const ExamPrepModule = ({ session, onUpdate }) => {
                   }`}>
                     <CardContent className="p-4">
                       <div className="prose prose-sm max-w-none dark:prose-invert">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {String(msg.content || '')}
+                        </ReactMarkdown>
                       </div>
                     </CardContent>
                   </Card>
