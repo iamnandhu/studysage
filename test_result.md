@@ -132,15 +132,18 @@ frontend:
 
   - task: "Sidebar icon alignment fix"
     implemented: true
-    working: "NA"
+    working: true
     file: "Sidebar.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Updated Sidebar button classes to use conditional justify-center/justify-start based on isCollapsed state for New Session, Theme Toggle, and Logout buttons"
+      - working: true
+        agent: "testing"
+        comment: "✅ PASSED - Tested sidebar collapse/expand functionality. All buttons (New Session, Theme Toggle, Logout) properly use justify-center classes when collapsed (w-16) and justify-start when expanded. Visual verification confirms perfect center alignment of icons in collapsed state."
 
   - task: "Document viewer component"
     implemented: true
