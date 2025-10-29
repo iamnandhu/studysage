@@ -307,9 +307,6 @@ const Sidebar = ({ user, onLogout }) => {
           </Button>
         </div>
       </div>
-
-      {/* Spacer */}
-      <div className={`transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-72'}`} />
     </>
   );
 };
