@@ -190,6 +190,54 @@ frontend:
         agent: "testing"
         comment: "✅ PASSED - @tailwindcss/typography v0.5.19 is installed and properly configured in tailwind.config.js. Prose classes are applied to markdown content areas for proper typography styling."
 
+  - task: "Session deletion fix"
+    implemented: true
+    working: "NA"
+    file: "Sidebar.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed session deletion by adding /api prefix to axios.delete call in Sidebar.js"
+
+  - task: "Document deletion fix"
+    implemented: true
+    working: "NA"
+    file: "DocumentList.js, Documents.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed document deletion by adding /api prefix to axios.delete calls in DocumentList.js and Documents.js"
+
+  - task: "Homework module overflow fix"
+    implemented: true
+    working: "NA"
+    file: "DocumentList.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added overflow-hidden class to Card and proper gap/overflow handling to prevent text overflow in left panel"
+
+  - task: "Homework module image upload redesign"
+    implemented: true
+    working: "NA"
+    file: "HomeworkModule.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Completely redesigned Homework module to accept image uploads for homework questions. Features: drag-and-drop image upload, image preview, homework history with thumbnails, side-by-side view of question image and AI solution with markdown rendering."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
