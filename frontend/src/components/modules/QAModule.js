@@ -3,9 +3,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import DocumentUploadDialog from '@/components/DocumentUploadDialog';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { Send, Brain, FileText, ExternalLink } from 'lucide-react';
+import { Send, Brain, FileText, ExternalLink, Upload } from 'lucide-react';
 
 const QAModule = ({ session, onUpdate }) => {
   const [messages, setMessages] = useState([]);
