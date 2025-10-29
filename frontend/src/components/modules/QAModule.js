@@ -86,7 +86,7 @@ const QAModule = ({ session, onUpdate }) => {
   };
 
   return (
-    <div className="h-screen flex" data-testid="qa-module">
+    <div className="h-[calc(100vh-4rem)] flex" data-testid="qa-module">
       {/* Left Column - Q&A History */}
       <div className="w-80 border-r border-border/50 flex flex-col bg-card/30">
         <div className="p-4 border-b border-border/50">
