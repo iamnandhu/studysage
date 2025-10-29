@@ -129,7 +129,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
             <ImageIcon className="w-5 h-5 text-blue-500" />
             <h2 className="font-semibold">Homework History</h2>
           </div>
-          <p className="text-xs text-muted-foreground">{homeworks.length} solved</p>
+          <p className="text-xs text-muted-foreground">{homeworks.length} homework(s) solved</p>
         </div>
 
         <ScrollArea className="flex-1 p-4">
