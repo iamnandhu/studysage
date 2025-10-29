@@ -150,6 +150,14 @@ const ExamPrepModule = ({ session, onUpdate }) => {
         </div>
       </div>
 
+      {/* Upload Dialog */}
+      <DocumentUploadDialog
+        open={showUpload}
+        onClose={() => setShowUpload(false)}
+        sessionId={session.id}
+        onUploadComplete={fetchData}
+      />
+
       {/* Center Column - Chat */}
       <div className="flex-1 flex flex-col">
         <div className="p-4 border-b border-border/50 bg-card/30">
