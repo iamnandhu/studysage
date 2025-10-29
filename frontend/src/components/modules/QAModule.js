@@ -154,7 +154,9 @@ const QAModule = ({ session, onUpdate }) => {
                     msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-card'
                   }`}>
                     <CardContent className="p-4">
-                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      <div className="prose prose-sm max-w-none dark:prose-invert">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                      </div>
                       {msg.sources && msg.sources.length > 0 && (
                         <div className="mt-3 pt-3 border-t border-border/30">
                           <p className="text-xs opacity-70 mb-2">Sources:</p>
