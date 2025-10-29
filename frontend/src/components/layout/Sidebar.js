@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { useTheme } from '@/context/ThemeContext';
 import axios from 'axios';
 import { toast } from 'sonner';
@@ -20,6 +21,7 @@ const Sidebar = ({ user, onLogout }) => {
   const [showNewSession, setShowNewSession] = useState(false);
   const [newSessionType, setNewSessionType] = useState('');
   const [newSessionName, setNewSessionName] = useState('');
+  const [deleteConfirm, setDeleteConfirm] = useState({ open: false, sessionId: null });
 
   useEffect(() => {
     fetchSessions();
