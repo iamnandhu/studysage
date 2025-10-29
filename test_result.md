@@ -245,7 +245,12 @@ metadata:
   run_ui: true
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Session deletion fix"
+    - "Document deletion fix"
+    - "Homework module overflow fix"
+    - "Homework module image upload redesign"
+    - "Homework solving endpoint"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -255,3 +260,5 @@ agent_communication:
     message: "Phase 1 implementation complete. Fixed all three immediate issues: 1) Added markdown rendering with react-markdown in all module chat/content areas, 2) Fixed sidebar button alignment when collapsed using conditional justify classes, 3) Created DocumentList component with comprehensive document info and integrated into all modules with tabs. Ready for testing."
   - agent: "testing"
     message: "Testing completed for Phase 1 UI fixes. SIDEBAR ALIGNMENT: ✅ PASSED - All buttons (New Session, Theme Toggle, Logout) are properly centered when sidebar is collapsed using justify-center classes. DOCUMENT VIEWER: ✅ PASSED - DocumentList component is implemented with proper document info display (filename, size, pages, date, scope), Documents/Sources tabs are present in all modules, upload functionality is available. MARKDOWN RENDERING: ⚠️ PARTIALLY TESTED - ReactMarkdown components are properly integrated in all modules with prose styling, but full end-to-end testing was limited due to authentication session management issues in the test environment. Code review confirms proper implementation with react-markdown and remark-gfm plugins."
+  - agent: "main"
+    message: "Bug fixes complete: 1) Fixed session deletion by adding /api prefix, 2) Fixed document deletion by adding /api prefix in multiple files, 3) Fixed homework module overflow with proper CSS classes, 4) Completely redesigned Homework module for image-based homework solving with drag-and-drop upload, 5) Created /api/homework/solve backend endpoint using Gemini vision. Ready for testing."
