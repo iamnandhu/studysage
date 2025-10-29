@@ -72,11 +72,13 @@ class User(BaseModel):
     password_hash: Optional[str] = None
     auth_provider: str = "email"  # email, google, phone
     profile_picture: Optional[str] = None
+    age: Optional[int] = None
     subscription_plan: str = "free"  # free, monthly, yearly
     subscription_status: str = "inactive"  # active, inactive, expired
     subscription_end_date: Optional[datetime] = None
-    credits: int = 0  # For metered usage
+    credits: int = 10  # For metered usage (changed from 0 to 10)
     total_usage: int = 0
+    theme: str = "dark"  # dark, light
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class UserSignup(BaseModel):
