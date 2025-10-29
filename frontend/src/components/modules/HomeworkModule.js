@@ -160,9 +160,9 @@ const HomeworkModule = ({ session, onUpdate }) => {
                       </CardHeader>
                       <CardContent>
                         <div className="prose prose-sm max-w-none dark:prose-invert">
-                          <p className="whitespace-pre-wrap leading-relaxed">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {summary.content.summary}
-                          </p>
+                          </ReactMarkdown>
                         </div>
                       </CardContent>
                     </Card>
