@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import DocumentUploadDialog from '@/components/DocumentUploadDialog';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { Upload, Send, FileText, Sparkles, GitBranch, Headphones, Calendar, Target } from 'lucide-react';
