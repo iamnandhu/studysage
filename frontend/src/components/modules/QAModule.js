@@ -63,19 +63,21 @@ const QAModule = ({ session, onUpdate }) => {
     try {
       await axios.post(`/sessions/${session.id}/messages`, userMsg);
       
-      // AI Response with document context
-      const docId = documents.length > 0 ? documents[0].id : null;
-      const response = await axios.post('/ai/qa', {
+      // Use RAG-enhanced Q&A endpoint
+      const response = await axios.post('/ai/qa-rag', {
         question: inputMessage,
-        document_id: docId
+        session_id: session.id
       });
 
-      const sources = docId ? [{ document_id: docId, filename: documents[0].filename, page: 1 }] : [];
-      const aiMsg = { role: 'assistant', content: response.data.answer, sources };
+      const aiMsg = { 
+        role: 'assistant', 
+        content: response.data.answer, 
+        sources: response.data.sources || []
+      };
       await axios.post(`/sessions/${session.id}/messages`, aiMsg);
       
       setMessages(prev => [...prev, aiMsg]);
-      setSelectedSources(sources);
+      setSelectedSources(response.data.sources || []);
       fetchData();
     } catch (error) {
       console.error('Error sending message:', error);
