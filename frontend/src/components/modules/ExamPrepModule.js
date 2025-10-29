@@ -189,7 +189,9 @@ const ExamPrepModule = ({ session, onUpdate }) => {
                     msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-card'
                   }`}>
                     <CardContent className="p-4">
-                      <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      <div className="prose prose-sm max-w-none dark:prose-invert">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
