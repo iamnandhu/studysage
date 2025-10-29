@@ -157,7 +157,9 @@ const QAModule = ({ session, onUpdate }) => {
                   }`}>
                     <CardContent className="p-4">
                       <div className="prose prose-sm max-w-none dark:prose-invert">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {String(msg.content || '')}
+                        </ReactMarkdown>
                       </div>
                       {msg.sources && msg.sources.length > 0 && (
                         <div className="mt-3 pt-3 border-t border-border/30">
