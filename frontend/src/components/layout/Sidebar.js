@@ -103,7 +103,7 @@ const Sidebar = ({ user, onLogout }) => {
 
   return (
     <>
-      <div className={`fixed left-0 top-0 h-full glass-morphism bg-gradient-to-b from-card via-card/95 to-card/90 border-r border-border/50 backdrop-blur-xl transition-all duration-300 z-50 flex flex-col shadow-xl ${
+      <div className={`h-screen glass-morphism bg-gradient-to-b from-card via-card/95 to-card/90 border-r border-border/50 backdrop-blur-xl transition-all duration-300 flex flex-col shadow-xl ${
         isCollapsed ? 'w-16' : 'w-72'
       }`} data-testid="sidebar">
         {/* Header */}
