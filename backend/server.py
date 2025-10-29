@@ -226,7 +226,10 @@ async def check_credits(user: User, required_credits: int = 1):
             return True
     
     if user.credits < required_credits:
-        raise HTTPException(status_code=402, detail="Insufficient credits. Please purchase more credits or subscribe.")
+        raise HTTPException(
+            status_code=402, 
+            detail=f"Insufficient credits. Need {required_credits} credits (₹{required_credits * 5}). Please purchase more credits or subscribe."
+        )
     return True
 
 async def deduct_credits(user_id: str, credits: int = 1):
