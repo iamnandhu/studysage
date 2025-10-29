@@ -208,42 +208,53 @@ const QAModule = ({ session, onUpdate }) => {
         </div>
       </div>
 
-      {/* Right Column - Sources */}
+      {/* Right Column - Sources & Documents */}
       <div className="w-80 border-l border-border/50 flex flex-col bg-card/30">
-        <div className="p-4 border-b border-border/50">
-          <h2 className="font-semibold">Sources & Citations</h2>
-        </div>
+        <Tabs defaultValue="sources" className="flex-1 flex flex-col">
+          <div className="p-4 border-b border-border/50">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="sources">Sources</TabsTrigger>
+              <TabsTrigger value="documents">Documents</TabsTrigger>
+            </TabsList>
+          </div>
 
-        <ScrollArea className="flex-1 p-4">
-          {selectedSources.length === 0 ? (
-            <div className="text-center py-8 text-sm text-muted-foreground">
-              <FileText className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p>No sources yet</p>
-              <p className="text-xs mt-1">Sources will appear here when you ask questions</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {selectedSources.map((source, idx) => (
-                <Card key={idx}>
-                  <CardContent className="p-3">
-                    <div className="flex items-center gap-2">
-                      <FileText className="w-4 h-4 text-primary" />
-                      <div>
-                        <p className="text-sm font-medium">{source.filename}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Referenced in answer {source.page ? `• Page ${source.page}` : ''}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </ScrollArea>
+          <TabsContent value="sources" className="flex-1 m-0">
+            <ScrollArea className="h-full p-4">
+              {selectedSources.length === 0 ? (
+                <div className="text-center py-8 text-sm text-muted-foreground">
+                  <FileText className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                  <p>No sources yet</p>
+                  <p className="text-xs mt-1">Sources will appear here when you ask questions</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {selectedSources.map((source, idx) => (
+                    <Card key={idx}>
+                      <CardContent className="p-3">
+                        <div className="flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-primary" />
+                          <div>
+                            <p className="text-sm font-medium">{source.filename}</p>
+                            <p className="text-xs text-muted-foreground">
+                              Referenced in answer {source.page ? `• Page ${source.page}` : ''}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </ScrollArea>
+          </TabsContent>
 
-        <div className="p-4 border-t border-border/50">
-          <div className="space-y-2">
+          <TabsContent value="documents" className="flex-1 m-0">
+            <ScrollArea className="h-full p-4">
+              <DocumentList documents={documents} onDocumentDeleted={fetchData} />
+            </ScrollArea>
+          </TabsContent>
+
+          <div className="p-4 border-t border-border/50">
             <Button
               variant="outline"
               className="w-full"
@@ -252,11 +263,8 @@ const QAModule = ({ session, onUpdate }) => {
               <Upload className="w-4 h-4 mr-2" />
               Upload Document
             </Button>
-            <div className="text-xs text-muted-foreground text-center">
-              <p>💡 Tip: Upload documents to get contextual answers with citations</p>
-            </div>
           </div>
-        </div>
+        </Tabs>
       </div>
 
       {/* Upload Dialog */}
