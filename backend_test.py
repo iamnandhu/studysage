@@ -94,6 +94,15 @@ Show your work step by step."""
         """Test the /api/homework/solve endpoint"""
         print("\n🧮 Testing homework solving endpoint...")
         
+        # Get initial credits
+        user_response = self.session.get(f"{BACKEND_URL}/auth/me")
+        if user_response.status_code != 200:
+            print(f"   ❌ Failed to get user info: {user_response.status_code}")
+            return False
+        
+        initial_credits = user_response.json()["credits"]
+        print(f"   📊 Initial credits: {initial_credits}")
+        
         # First create a homework session
         session_data = {
             "type": "homework",
@@ -124,6 +133,19 @@ Show your work step by step."""
                 result = response.json()
                 print(f"   ✅ Homework solved successfully")
                 print(f"   📝 Solution preview: {result['solution'][:100]}...")
+                
+                # Verify credits were deducted
+                user_response = self.session.get(f"{BACKEND_URL}/auth/me")
+                if user_response.status_code == 200:
+                    final_credits = user_response.json()["credits"]
+                    credits_used = initial_credits - final_credits
+                    print(f"   💰 Credits deducted: {credits_used} (expected: 2)")
+                    
+                    if credits_used == 2:
+                        print(f"   ✅ Correct credits deducted")
+                    else:
+                        print(f"   ❌ Incorrect credits deducted: {credits_used}")
+                        return False
                 
                 # Verify messages were saved
                 messages_response = self.session.get(f"{BACKEND_URL}/sessions/{session_id}/messages")
