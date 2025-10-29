@@ -12,6 +12,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
   const [summaries, setSummaries] = useState([]);
   const [selectedDoc, setSelectedDoc] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showUpload, setShowUpload] = useState(false);
 
   useEffect(() => {
     fetchData();
