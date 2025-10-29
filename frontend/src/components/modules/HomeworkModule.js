@@ -121,7 +121,7 @@ const HomeworkModule = ({ session, onUpdate }) => {
   };
 
   return (
-    <div className="h-screen flex" data-testid="homework-module">
+    <div className="h-[calc(100vh-4rem)] flex" data-testid="homework-module">
       {/* Left Sidebar - Homework History */}
       <div className="w-72 border-r border-border/50 flex flex-col bg-card/30">
         <div className="p-4 border-b border-border/50">
