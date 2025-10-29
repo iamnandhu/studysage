@@ -118,9 +118,11 @@ const ExamPrepModule = ({ session, onUpdate }) => {
                     </CardHeader>
                     <CardContent className="p-3 pt-0">
                       {summary ? (
-                        <p className="text-xs text-muted-foreground line-clamp-3">
-                          {summary.content.summary?.substring(0, 100)}...
-                        </p>
+                        <div className="prose prose-xs max-w-none dark:prose-invert line-clamp-3">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {summary.content.summary?.substring(0, 150)}...
+                          </ReactMarkdown>
+                        </div>
                       ) : (
                         <Button
                           variant="outline"
