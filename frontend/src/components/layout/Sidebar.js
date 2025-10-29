@@ -314,6 +314,16 @@ const Sidebar = ({ user, onLogout }) => {
           </Button>
         </div>
       </div>
+      
+      <ConfirmDialog
+        open={deleteConfirm.open}
+        onOpenChange={(open) => setDeleteConfirm({ open, sessionId: null })}
+        title="Delete Session"
+        description="Are you sure you want to delete this session? All messages will be permanently lost."
+        onConfirm={confirmDelete}
+        confirmText="Delete"
+        cancelText="Cancel"
+      />
     </>
   );
 };
