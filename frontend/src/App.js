@@ -133,7 +133,12 @@ function App() {
                   user ? <Home /> : <Navigate to="/" />
                 }
               />
-              {/* Session routes will be added in next phase */}
+              <Route
+                path="/session/:sessionId"
+                element={
+                  user ? <SessionView /> : <Navigate to="/" />
+                }
+              />
             </Routes>
           </main>
 
