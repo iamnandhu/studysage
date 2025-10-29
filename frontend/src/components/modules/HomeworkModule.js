@@ -62,47 +62,27 @@ const HomeworkModule = ({ session, onUpdate }) => {
       {/* Left Sidebar - Document List */}
       <div className="w-72 border-r border-border/50 flex flex-col bg-card/30">
         <div className="p-4 border-b border-border/50">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-2">
             <FileText className="w-5 h-5 text-blue-500" />
             <h2 className="font-semibold">Documents</h2>
           </div>
+          <p className="text-xs text-muted-foreground">{documents.length} document(s)</p>
         </div>
 
         <ScrollArea className="flex-1 p-4">
-          <div className="space-y-2">
-            {documents.length === 0 ? (
-              <div className="text-center py-8 text-sm text-muted-foreground">
-                <Upload className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                <p>No documents yet</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-3"
-                  onClick={() => setShowUpload(true)}
-                >
-                  Upload Document
-                </Button>
-              </div>
-            ) : (
-              documents.map((doc) => (
-                <Card
-                  key={doc.id}
-                  className={`card-hover cursor-pointer ${
-                    selectedDoc?.id === doc.id ? 'border-primary bg-primary/5' : ''
-                  }`}
-                  onClick={() => setSelectedDoc(doc)}
-                >
-                  <CardContent className="p-3">
-                    <p className="text-sm font-medium line-clamp-2">{doc.filename}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {(doc.file_size / 1024).toFixed(1)} KB
-                    </p>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
+          <DocumentList documents={documents} onDocumentDeleted={fetchData} />
         </ScrollArea>
+
+        <div className="p-4 border-t border-border/50">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => setShowUpload(true)}
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Upload Document
+          </Button>
+        </div>
       </div>
 
       {/* Main Content - Summary View */}
