@@ -1,14 +1,21 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { FileText, Trash2, Calendar, FileIcon } from 'lucide-react';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { toast } from 'sonner';
 import axios from 'axios';
 
 const DocumentList = ({ documents, onDocumentDeleted, selectedDoc, onDocumentSelect }) => {
+  const [deleteConfirm, setDeleteConfirm] = useState({ open: false, docId: null });
+
   const handleDelete = async (docId, e) => {
     e.stopPropagation();
-    if (!window.confirm('Delete this document? This action cannot be undone.')) return;
+    setDeleteConfirm({ open: true, docId });
+  };
 
+  const confirmDelete = async () => {
+    const { docId } = deleteConfirm;
     try {
       await axios.delete(`/documents/${docId}`);
       toast.success('Document deleted');
@@ -16,6 +23,8 @@ const DocumentList = ({ documents, onDocumentDeleted, selectedDoc, onDocumentSel
     } catch (error) {
       console.error('Error deleting document:', error);
       toast.error(error.response?.data?.detail || 'Failed to delete document');
+    } finally {
+      setDeleteConfirm({ open: false, docId: null });
     }
   };
 
