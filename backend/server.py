@@ -918,6 +918,79 @@ async def ask_question(
         text=context_message,
         file_contents=[file_content] if file_content else []
     )
+
+
+@api_router.post("/ai/qa-rag")
+async def ask_question_rag(
+    request: Request,
+    current_user: User = Depends(get_current_user)
+):
+    """RAG-enhanced Q&A endpoint"""
+    await check_credits(current_user, 1)
+    
+    data = await request.json()
+    question = data.get('question')
+    session_id = data.get('session_id')
+    
+    if not question:
+        raise HTTPException(status_code=400, detail="Question is required")
+    
+    try:
+        # Get documents for this session
+        documents = await db.documents.find({
+            "user_id": current_user.id,
+            "$or": [
+                {"session_id": session_id},
+                {"is_global": True}
+            ]
+        }).to_list(100)
+        
+        if not documents:
+            raise HTTPException(status_code=400, detail="No documents found. Please upload documents first.")
+        
+        document_ids = [doc['id'] for doc in documents]
+        
+        # Search for relevant chunks
+        relevant_chunks = await rag_service.search_similar_chunks(
+            query=question,
+            document_ids=document_ids,
+            user_id=current_user.id,
+            top_k=5
+        )
+        
+        if not relevant_chunks:
+            raise HTTPException(status_code=404, detail="No relevant information found in documents")
+        
+        # Generate answer with context
+        result = await rag_service.generate_answer_with_context(
+            query=question,
+            relevant_chunks=relevant_chunks,
+            age=current_user.age
+        )
+        
+        await deduct_credits(current_user.id, 1)
+        
+        # Get document filenames for sources
+        doc_map = {doc['id']: doc['filename'] for doc in documents}
+        sources = [
+            {
+                "document_id": source['document_id'],
+                "filename": doc_map.get(source['document_id'], 'Unknown'),
+                "page": source.get('page')
+            }
+            for source in result['sources']
+        ]
+        
+        return {
+            "answer": result['answer'],
+            "question": question,
+            "sources": sources,
+            "context_chunks_used": result['context_used']
+        }
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error answering question: {str(e)}")
+
     
     try:
         response = await chat.send_message(user_message)
