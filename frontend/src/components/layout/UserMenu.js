@@ -26,6 +26,20 @@ const UserMenu = ({ user, onLogout, onUserUpdate }) => {
   const [age, setAge] = useState(user?.age || '');
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [paymentConfig, setPaymentConfig] = useState(null);
+
+  useEffect(() => {
+    // Fetch payment config
+    const fetchPaymentConfig = async () => {
+      try {
+        const response = await axios.get('/payments/config');
+        setPaymentConfig(response.data);
+      } catch (error) {
+        console.error('Error fetching payment config:', error);
+      }
+    };
+    fetchPaymentConfig();
+  }, []);
 
   const getInitials = () => {
     if (!user?.name) return 'U';
