@@ -130,7 +130,7 @@ const Sidebar = ({ user, onLogout }) => {
           <Dialog open={showNewSession} onOpenChange={setShowNewSession}>
             <DialogTrigger asChild>
               <Button
-                className="w-full justify-start gap-2 bg-primary hover:bg-primary/90"
+                className={`w-full gap-2 bg-primary hover:bg-primary/90 ${isCollapsed ? 'justify-center px-0' : 'justify-start'}`}
                 data-testid="new-session-btn"
               >
                 <Plus className="w-4 h-4" />
