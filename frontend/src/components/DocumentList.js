@@ -4,7 +4,7 @@ import { FileText, Trash2, Calendar, FileIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
 
-const DocumentList = ({ documents, onDocumentDeleted }) => {
+const DocumentList = ({ documents, onDocumentDeleted, selectedDoc, onDocumentSelect }) => {
   const handleDelete = async (docId, e) => {
     e.stopPropagation();
     if (!window.confirm('Delete this document? This action cannot be undone.')) return;
@@ -42,7 +42,13 @@ const DocumentList = ({ documents, onDocumentDeleted }) => {
   return (
     <div className="space-y-3">
       {documents.map((doc) => (
-        <Card key={doc.id} className="card-hover">
+        <Card
+          key={doc.id}
+          className={`card-hover ${
+            onDocumentSelect ? 'cursor-pointer' : ''
+          } ${selectedDoc?.id === doc.id ? 'border-primary bg-primary/5' : ''}`}
+          onClick={() => onDocumentSelect && onDocumentSelect(doc)}
+        >
           <CardHeader className="p-3 pb-2">
             <CardTitle className="text-sm flex items-start justify-between">
               <div className="flex items-center gap-2 flex-1 min-w-0">
