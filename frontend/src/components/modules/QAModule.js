@@ -268,6 +268,21 @@ const QAModule = ({ session, onUpdate }) => {
           </TabsContent>
 
           <TabsContent value="documents" className="flex-1 m-0">
+            <div className="p-4 border-b border-border/50">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="global-docs" className="text-sm cursor-pointer">
+                  Include Global Documents
+                </Label>
+                <Switch
+                  id="global-docs"
+                  checked={includeGlobalDocs}
+                  onCheckedChange={setIncludeGlobalDocs}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                {includeGlobalDocs ? 'Showing session + global docs' : 'Showing session docs only'}
+              </p>
+            </div>
             <ScrollArea className="h-full p-4">
               <DocumentList documents={documents} onDocumentDeleted={fetchData} />
             </ScrollArea>
