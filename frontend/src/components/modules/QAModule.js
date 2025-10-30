@@ -4,6 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 import DocumentUploadDialog from '@/components/DocumentUploadDialog';
 import DocumentList from '@/components/DocumentList';
 import axios from 'axios';
