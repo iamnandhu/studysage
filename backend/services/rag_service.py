@@ -149,6 +149,9 @@ class RAGService:
         """Generate answer using LLM with retrieved context"""
         from emergentintegrations.llm.chat import LlmChat, UserMessage
         
+        # Get API key
+        emergent_llm_key = os.environ.get('EMERGENT_LLM_KEY', 'sk-emergent-placeholder')
+        
         # Prepare context
         context = "\n\n".join([
             f"[Document {chunk['document_id']}, Page {chunk.get('page_number', 'N/A')}]:\n{chunk['content']}"
@@ -159,7 +162,7 @@ class RAGService:
         system_message = f"You are an expert study assistant. Answer questions based ONLY on the provided context. Include citations with document ID and page numbers. The student is {age} years old." if age else "You are an expert study assistant. Answer questions based ONLY on the provided context. Include citations with document ID and page numbers."
         
         chat = LlmChat(
-            api_key=EMERGENT_LLM_KEY,
+            api_key=emergent_llm_key,
             session_id=f"rag_{uuid.uuid4()}",
             system_message=system_message
         ).with_model("gemini", "gemini-2.0-flash")
