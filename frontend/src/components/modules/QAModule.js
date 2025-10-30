@@ -28,6 +28,10 @@ const QAModule = ({ session, onUpdate }) => {
     fetchData();
   }, [session.id]);
 
+  useEffect(() => {
+    fetchData();
+  }, [includeGlobalDocs]);
+
   const fetchData = async () => {
     try {
       const [messagesRes, docsRes] = await Promise.all([
