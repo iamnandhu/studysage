@@ -7,15 +7,22 @@ from docx import Document as DocxDocument
 import uuid
 from datetime import datetime, timezone
 
-# Initialize OpenAI client with Emergent LLM key
-EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
-openai_client = openai.OpenAI(api_key=EMERGENT_LLM_KEY)
-
 class RAGService:
     def __init__(self, db):
         self.db = db
         self.chunk_size = 1000
         self.chunk_overlap = 200
+        self._openai_client = None
+        self._emergent_llm_key = None
+    
+    @property
+    def openai_client(self):
+        """Lazy initialization of OpenAI client"""
+        if self._openai_client is None:
+            if self._emergent_llm_key is None:
+                self._emergent_llm_key = os.environ.get('EMERGENT_LLM_KEY', 'sk-emergent-placeholder')
+            self._openai_client = openai.OpenAI(api_key=self._emergent_llm_key)
+        return self._openai_client
         
     def extract_text_from_pdf(self, file_path: str) -> List[Dict[str, Any]]:
         """Extract text from PDF with page numbers"""
