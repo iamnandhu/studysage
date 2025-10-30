@@ -55,7 +55,7 @@ class RAGService:
     async def generate_embedding(self, text: str) -> List[float]:
         """Generate embedding using OpenAI"""
         try:
-            response = openai_client.embeddings.create(
+            response = self.openai_client.embeddings.create(
                 model="text-embedding-3-small",
                 input=text
             )
