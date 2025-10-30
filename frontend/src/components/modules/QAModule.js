@@ -30,14 +30,17 @@ const QAModule = ({ session, onUpdate }) => {
     try {
       const [messagesRes, docsRes] = await Promise.all([
         axios.get(`/sessions/${session.id}/messages`),
-        // Only fetch documents for this specific session (not global ones)
+        // Fetch documents for this session
         axios.get('/documents', { params: { session_id: session.id } })
       ]);
       
       setMessages(messagesRes.data);
-      // Filter to only show session-specific documents (not global)
-      const sessionDocs = docsRes.data.filter(doc => doc.session_id === session.id);
-      setDocuments(sessionDocs);
+      // Filter documents based on includeGlobalDocs setting
+      let filteredDocs = includeGlobalDocs 
+        ? docsRes.data.filter(doc => doc.session_id === session.id || doc.is_global)
+        : docsRes.data.filter(doc => doc.session_id === session.id);
+      
+      setDocuments(filteredDocs);
       
       // Extract Q&A pairs from messages
       const qaPairs = [];
